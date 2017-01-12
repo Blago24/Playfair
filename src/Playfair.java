@@ -2,7 +2,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Playfair {
-
+// Testing the commit
+	
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Put the key:");
