@@ -31,9 +31,9 @@ public class Playfair {
 	private static void showTheEncriptedText(char[][] table, char[] text) {
 		char[] encriptedText = new char[2];
 		char[] ecncriptedTextForWindow = new char[text.length];
-		for (int i = START_INDEX_1; i < text.length; i += 2) {
-			char first = text[i - START_INDEX_1];
-			char second = text[i];
+		for (int row = START_INDEX_1; row < text.length; row += 2) {
+			char first = text[row - START_INDEX_1];
+			char second = text[row];
 			int[] indexesFromRowsAndCols = findingTheIndexesOfTheLettersInTheTable(first, second, table);
 			int firstLetterRow = indexesFromRowsAndCols[FIRST_LETTER_ROW];
 			int firstLetterCol = indexesFromRowsAndCols[FIRST_LETTER_COL];
@@ -41,8 +41,8 @@ public class Playfair {
 			int secondLetterCol = indexesFromRowsAndCols[SECOND_LETTER_COL];
 			// System.out.println(Arrays.toString(indexesFromRowsAndCols));
 			encriptedText = encoding(firstLetterRow, firstLetterCol, secondLetterRow, secondLetterCol, table);
-			ecncriptedTextForWindow[i - START_INDEX_1] = encriptedText[START_INDEX_0];
-			ecncriptedTextForWindow[i] = encriptedText[START_INDEX_1];
+			ecncriptedTextForWindow[row - START_INDEX_1] = encriptedText[START_INDEX_0];
+			ecncriptedTextForWindow[row] = encriptedText[START_INDEX_1];
 		}
 		for (int i = START_INDEX_1; i < ecncriptedTextForWindow.length; i += 2) {
 			System.out.print(ecncriptedTextForWindow[i - START_INDEX_1] + "" + ecncriptedTextForWindow[i] + " ");
@@ -51,9 +51,9 @@ public class Playfair {
 	}
 
 	private static void showTable(char[][] table) {
-		for (int i = START_INDEX_0; i < TABLE_SIZE; i++) {
-			for (int j = START_INDEX_0; j < TABLE_SIZE; j++) {
-				System.out.print(table[i][j] + " ");
+		for (int rows = START_INDEX_0; rows < TABLE_SIZE; rows++) {
+			for (int cols = START_INDEX_0; cols < TABLE_SIZE; cols++) {
+				System.out.print(table[rows][cols] + " ");
 			}
 			System.out.println();
 		}
@@ -116,9 +116,9 @@ public class Playfair {
 			char[] theArrayWithTheTableOneDimensional) {
 		char[][] theArrayWithTheTable = new char[TABLE_SIZE][TABLE_SIZE];
 		int countForTheOneDimensionalArray = 0;
-		for (int i = START_INDEX_0; i < TABLE_SIZE; i++) {
-			for (int j = START_INDEX_0; j < TABLE_SIZE; j++) {
-				theArrayWithTheTable[i][j] = theArrayWithTheTableOneDimensional[countForTheOneDimensionalArray];
+		for (int rows = START_INDEX_0; rows < TABLE_SIZE; rows++) {
+			for (int cols = START_INDEX_0; cols < TABLE_SIZE; cols++) {
+				theArrayWithTheTable[rows][cols] = theArrayWithTheTableOneDimensional[countForTheOneDimensionalArray];
 				countForTheOneDimensionalArray++;
 			}
 		}
@@ -129,10 +129,10 @@ public class Playfair {
 			char[] theArrayWithTheTableOneDimensional) {
 		char theLetterWithTheSmallestPosition = 'A';
 		int countForTheDifferentLetters;
-		for (int i = countForTheDifferentLettersWhichPass; i < ONE_DIMENSIONAL_ARRAY_SIZE; i++) {
+		for (int rows = countForTheDifferentLettersWhichPass; rows < ONE_DIMENSIONAL_ARRAY_SIZE; rows++) {
 			countForTheDifferentLetters = 0;
-			for (int j = START_INDEX_0; j < ONE_DIMENSIONAL_ARRAY_SIZE; j++) {
-				if (theLetterWithTheSmallestPosition != theArrayWithTheTableOneDimensional[j]) {
+			for (int cols = START_INDEX_0; cols < ONE_DIMENSIONAL_ARRAY_SIZE; cols++) {
+				if (theLetterWithTheSmallestPosition != theArrayWithTheTableOneDimensional[cols]) {
 
 					countForTheDifferentLetters++;
 
@@ -141,10 +141,10 @@ public class Playfair {
 			}
 
 			if (countForTheDifferentLetters == ONE_DIMENSIONAL_ARRAY_SIZE) {
-				theArrayWithTheTableOneDimensional[i] = theLetterWithTheSmallestPosition;
+				theArrayWithTheTableOneDimensional[rows] = theLetterWithTheSmallestPosition;
 
 			} else if (countForTheDifferentLetters == ONE_DIMENSIONAL_ARRAY_SIZE - 1) {
-				i--;
+				rows--;
 			}
 			if (theLetterWithTheSmallestPosition != THE_I) {
 				theLetterWithTheSmallestPosition++;
@@ -160,20 +160,20 @@ public class Playfair {
 			char[] theArrayWithTheTableOneDimensional) {
 		int countForTheDifferentLettersWhichPass = 0;
 		int countForTheDifferentLetters;
-		for (int i = START_INDEX_0; i < theArrayWithTheKey.length; i++) {
+		for (int rows = START_INDEX_0; rows < theArrayWithTheKey.length; rows++) {
 			countForTheDifferentLetters = 0;
-			for (int j = START_INDEX_0; j < theArrayWithTheKey.length; j++) {
+			for (int cols = START_INDEX_0; cols < theArrayWithTheKey.length; cols++) {
 
-				if (theArrayWithTheKey[i] != theArrayWithTheTableOneDimensional[j]) {
+				if (theArrayWithTheKey[rows] != theArrayWithTheTableOneDimensional[cols]) {
 					countForTheDifferentLetters++;
 
 				}
 				if (countForTheDifferentLetters == theArrayWithTheKey.length) {
-					if (theArrayWithTheKey[i] == THE_J) {
+					if (theArrayWithTheKey[rows] == THE_J) {
 						theArrayWithTheTableOneDimensional[countForTheDifferentLettersWhichPass] = THE_I;
 						countForTheDifferentLettersWhichPass++;
 					} else {
-						theArrayWithTheTableOneDimensional[countForTheDifferentLettersWhichPass] = theArrayWithTheKey[i];
+						theArrayWithTheTableOneDimensional[countForTheDifferentLettersWhichPass] = theArrayWithTheKey[rows];
 						countForTheDifferentLettersWhichPass++;
 					}
 				}
@@ -194,8 +194,8 @@ public class Playfair {
 		// division every two letters
 		char[] array;
 		int countForTwoSameFollowingLetters = 0;
-		for (int i = START_INDEX_1; i < finalArrayWithText.length; i++) {
-			if (finalArrayWithText[i - START_INDEX_1] == finalArrayWithText[i]) {
+		for (int row = START_INDEX_1; row < finalArrayWithText.length; row++) {
+			if (finalArrayWithText[row - START_INDEX_1] == finalArrayWithText[row]) {
 				countForTwoSameFollowingLetters++;
 			}
 		}
@@ -209,15 +209,15 @@ public class Playfair {
 
 		array[START_INDEX_0] = finalArrayWithText[START_INDEX_0];
 		int checkForTwoSameLetters = 0;
-		for (int i = START_INDEX_1; i < finalArrayWithText.length; i++) {
+		for (int row = START_INDEX_1; row < finalArrayWithText.length; row++) {
 
-			if (finalArrayWithText[i] != array[i - START_INDEX_1 + checkForTwoSameLetters]) {
+			if (finalArrayWithText[row] != array[row - START_INDEX_1 + checkForTwoSameLetters]) {
 
-				array[i + checkForTwoSameLetters] = finalArrayWithText[i];
+				array[row + checkForTwoSameLetters] = finalArrayWithText[row];
 			} else {
 
-				array[i + checkForTwoSameLetters] = THE_X;
-				array[i + START_INDEX_1 + checkForTwoSameLetters] = finalArrayWithText[i];
+				array[row + checkForTwoSameLetters] = THE_X;
+				array[row + START_INDEX_1 + checkForTwoSameLetters] = finalArrayWithText[row];
 				checkForTwoSameLetters++;
 			}
 		}
@@ -228,9 +228,9 @@ public class Playfair {
 		char[] arrayWithTheText = new char[arrayWithTheTextBeforeTheCut.length];
 
 		byte countForTheIndexForTheTextWithoutTheSpaces = 0;
-		for (int i = START_INDEX_0; i < arrayWithTheTextBeforeTheCut.length; i++) {
-			if (arrayWithTheTextBeforeTheCut[i] != ' ') {
-				arrayWithTheText[countForTheIndexForTheTextWithoutTheSpaces] = arrayWithTheTextBeforeTheCut[i];
+		for (int row = START_INDEX_0; row < arrayWithTheTextBeforeTheCut.length; row++) {
+			if (arrayWithTheTextBeforeTheCut[row] != ' ') {
+				arrayWithTheText[countForTheIndexForTheTextWithoutTheSpaces] = arrayWithTheTextBeforeTheCut[row];
 				countForTheIndexForTheTextWithoutTheSpaces++;
 			} else {
 				continue;
@@ -239,8 +239,8 @@ public class Playfair {
 		}
 		// System.out.println(Arrays.toString(arrayWithTheKey));
 		char[] finalArrayWithText = new char[countForTheIndexForTheTextWithoutTheSpaces];
-		for (int i = START_INDEX_0; i < countForTheIndexForTheTextWithoutTheSpaces; i++) {
-			finalArrayWithText[i] = arrayWithTheText[i];
+		for (int row = START_INDEX_0; row < countForTheIndexForTheTextWithoutTheSpaces; row++) {
+			finalArrayWithText[row] = arrayWithTheText[row];
 		}
 		return finalArrayWithText;
 	}
