@@ -8,6 +8,7 @@ public class Playfair {
 	private static final char THE_X = 'X';
 	private static final char THE_Q = 'Q';
 	private static final char THE_I = 'I';
+	private static final char THE_J = 'J';
 	private static final char NULL_CHARACTER = '\u0000';
 	private static final int FIRST_LETTER_ROW = 0;
 	private static final int FIRST_LETTER_COL = 1;
@@ -17,17 +18,15 @@ public class Playfair {
 	private static final int START_INDEX_1 = 1;
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Put the key:");
-		char[] key = insertingKey(scanner);
+		
+		char[] key = insertingKey();
 		char[][] table = makingTheTableFromTheKey(key);
-
 		showTable(table);
-		System.out.print("Put the text:");
-		char[] text = insertingText(scanner);
+		char[] text = insertingText();
 		System.out.println(Arrays.toString(text));
 		showTheEncriptedText(table, text);
 	}
+	
 
 	private static void showTheEncriptedText(char[][] table, char[] text) {
 		char[] encriptedText = new char[2];
@@ -60,19 +59,23 @@ public class Playfair {
 		}
 	}
 
-	private static char[] insertingKey(Scanner scanner) {
-
+	private static char[] insertingKey() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Put the key:");
 		String keyString = scanner.nextLine();
 		char[] arrayWithTheKeyBeforeTheCut = keyString.toCharArray();
 		char[] key = makingTheKey(arrayWithTheKeyBeforeTheCut);
+		
 		return key;
 	}
 
-	private static char[] insertingText(Scanner scanner) {
-
+	private static char[] insertingText() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Put the text:");
 		String textString = scanner.nextLine();
 		char[] arrayWithTheTextBeforeTheCut = textString.toCharArray();
 		char[] text = makingTheText(arrayWithTheTextBeforeTheCut);
+		
 		return text;
 	}
 
@@ -166,7 +169,7 @@ public class Playfair {
 
 				}
 				if (countForTheDifferentLetters == theArrayWithTheKey.length) {
-					if (theArrayWithTheKey[i] == 'J') {
+					if (theArrayWithTheKey[i] == THE_J) {
 						theArrayWithTheTableOneDimensional[countForTheDifferentLettersWhichPass] = THE_I;
 						countForTheDifferentLettersWhichPass++;
 					} else {
