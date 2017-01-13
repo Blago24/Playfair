@@ -9,13 +9,18 @@ public class Playfair {
 	private static final char THE_Q = 'Q';
 	private static final char THE_I = 'I';
 	private static final char THE_J = 'J';
-	private static final char NULL_CHARACTER = '\u0000';
 	private static final int FIRST_LETTER_ROW = 0;
 	private static final int FIRST_LETTER_COL = 1;
 	private static final int SECOND_LETTER_ROW = 2;
 	private static final int SECOND_LETTER_COL = 3;
 	private static final int START_INDEX_0 = 0;
 	private static final int START_INDEX_1 = 1;
+	
+	/*
+	 * We need this global variables , because use them is three methods
+	 */
+	private static char outGoingFirstLetter = '\u0000';
+	private static char outGoingSecondLetter = '\u0000';
 
 	public static void main(String[] args) {
 
@@ -232,59 +237,79 @@ public class Playfair {
 	private static char[] encoding(int firstLetterRow, int firstLetterCol, int secondLetterRow, int secondLetterCol,
 			char[][] table) {
 
-		char outGoingFirstLetter = NULL_CHARACTER;
-		char outGoingSecondLetter = NULL_CHARACTER;
-
+		// char outGoingFirstLetter = NULL_CHARACTER;
+		// char outGoingSecondLetter = NULL_CHARACTER;
 		if (firstLetterRow != secondLetterRow && firstLetterCol != secondLetterCol) {
-			outGoingFirstLetter = table[firstLetterRow][secondLetterCol];
-			outGoingSecondLetter = table[secondLetterRow][firstLetterCol];
+			encodeDifferentRowsAndDifferentCols(firstLetterRow, firstLetterCol, secondLetterRow, secondLetterCol,
+					table);
 
 		} else if (firstLetterRow == secondLetterRow && firstLetterCol != secondLetterCol) {
-			if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
-				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+			encodeSameRowsAndDifferentCols(firstLetterRow, firstLetterCol, secondLetterRow, secondLetterCol, table);
 
-			} else if (firstLetterCol == TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow + 1][FIRST_POSITION];
-				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
-
-			} else if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
-				outGoingSecondLetter = table[secondLetterRow + 1][FIRST_POSITION];
-
-			} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
-			} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-
-			}
-
-		} else if (firstLetterCol == secondLetterCol && firstLetterRow != secondLetterRow) {
-			if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-
-			} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[0][firstLetterCol + 1];
-				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-
-			} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-				outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
-
-			} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
-			} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-
-			}
+		} else if (firstLetterRow != secondLetterRow && firstLetterCol == secondLetterCol) {
+			encodeDifferentRowsAndSameCols(firstLetterRow, firstLetterCol, secondLetterRow, secondLetterCol, table);
 
 		}
+		char[] OutGoingText = putTheLettersInArray(outGoingFirstLetter, outGoingSecondLetter);
+		return OutGoingText;
+
+	}
+
+	private static void encodeDifferentRowsAndSameCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+			int secondLetterCol, char[][] table) {
+		if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+
+		} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[0][firstLetterCol + 1];
+			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+
+		} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+			outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
+
+		} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
+		} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
+			outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+
+		}
+	}
+
+	private static void encodeSameRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+			int secondLetterCol, char[][] table) {
+		if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
+			outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+
+		} else if (firstLetterCol == TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow + 1][FIRST_POSITION];
+			outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+
+		} else if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol == TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
+			outGoingSecondLetter = table[secondLetterRow + 1][FIRST_POSITION];
+
+		} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
+		} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
+			outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+
+		}
+	}
+
+	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+			int secondLetterCol, char[][] table) {
+		outGoingFirstLetter = table[firstLetterRow][secondLetterCol];
+		outGoingSecondLetter = table[secondLetterRow][firstLetterCol];
+	}
+
+	private static char[] putTheLettersInArray(char outGoingFirstLetter, char outGoingSecondLetter) {
 		char[] OutGoingText = new char[2];
 		OutGoingText[START_INDEX_0] = outGoingFirstLetter;
 		OutGoingText[START_INDEX_1] = outGoingSecondLetter;
 		return OutGoingText;
-
 	}
 
 	private static void showTheEncriptedText(char[][] table, char[] text) {
