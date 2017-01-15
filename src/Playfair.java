@@ -44,6 +44,7 @@ public class Playfair {
 	 */
 	private static char[] insertingKey() {
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("/if you hit Enter ,the table will become the alphabet/");
 		System.out.print("Put the key:");
 		String keyString = scanner.nextLine();
 		char[] arrayWithTheKeyBeforeTheCut = keyString.toCharArray();
