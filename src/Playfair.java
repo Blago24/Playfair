@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Playfair {
+
 	private static final int TABLE_SIZE = 5;
 	private static final int FIRST_POSITION = 0;
 	private static final int ONE_DIMENSIONAL_ARRAY_SIZE = 25;
@@ -15,7 +16,7 @@ public class Playfair {
 	private static final int SECOND_LETTER_COL = 3;
 	private static final int START_INDEX_0 = 0;
 	private static final int START_INDEX_1 = 1;
-	
+
 	/*
 	 * We need this global variables , because use them is three methods
 	 */
@@ -28,8 +29,10 @@ public class Playfair {
 		char[][] table = makingTheTableFromTheKey(key);
 		showTable(table);
 		char[] text = insertingText();
-		System.out.println(Arrays.toString(text));
-		showTheEncriptedText(table, text);
+
+		String encodedText = makeTheEncriptedText(table, text);
+		showTheEncriptedText(encodedText);
+
 	}
 
 	private static char[] insertingKey() {
@@ -237,8 +240,6 @@ public class Playfair {
 	private static char[] encoding(int firstLetterRow, int firstLetterCol, int secondLetterRow, int secondLetterCol,
 			char[][] table) {
 
-		// char outGoingFirstLetter = NULL_CHARACTER;
-		// char outGoingSecondLetter = NULL_CHARACTER;
 		if (firstLetterRow != secondLetterRow && firstLetterCol != secondLetterCol) {
 			encodeDifferentRowsAndDifferentCols(firstLetterRow, firstLetterCol, secondLetterRow, secondLetterCol,
 					table);
@@ -262,17 +263,24 @@ public class Playfair {
 			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
 
 		} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[0][firstLetterCol + 1];
-			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+			if(firstLetterCol==TABLE_SIZE - 1){
+				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
+				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+			}else{
+				outGoingFirstLetter = table[FIRST_POSITION][firstLetterCol+1];
+				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+			}
+			
 
 		} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-			outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
-
-		} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
-		} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-			outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+			
+			if(secondLetterCol==TABLE_SIZE - 1){
+				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+			}else{
+				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+				outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
+			}
 
 		}
 	}
@@ -284,19 +292,26 @@ public class Playfair {
 			outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
 
 		} else if (firstLetterCol == TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[firstLetterRow + 1][FIRST_POSITION];
-			outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+			if(firstLetterRow==TABLE_SIZE - 1){
+				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
+				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+			}else{
+				outGoingFirstLetter = table[firstLetterRow+1][FIRST_POSITION];
+				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
+			}
+			
 
 		} else if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol == TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
-			outGoingSecondLetter = table[secondLetterRow + 1][FIRST_POSITION];
+			if(firstLetterRow==TABLE_SIZE - 1){
+				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
+				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+			}else{
+				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
+				outGoingSecondLetter = table[secondLetterRow + 1][FIRST_POSITION];
+			}
+			
 
-		} else if (firstLetterCol == TABLE_SIZE - 1 && firstLetterRow == TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
-		} else if (secondLetterCol == TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-			outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-
-		}
+		} 
 	}
 
 	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
@@ -312,7 +327,7 @@ public class Playfair {
 		return OutGoingText;
 	}
 
-	private static void showTheEncriptedText(char[][] table, char[] text) {
+	private static String makeTheEncriptedText(char[][] table, char[] text) {
 		char[] encriptedText = new char[2];
 		char[] ecncriptedTextForWindow = new char[text.length];
 		for (int row = START_INDEX_1; row < text.length; row += 2) {
@@ -330,9 +345,16 @@ public class Playfair {
 			ecncriptedTextForWindow[row - START_INDEX_1] = encriptedText[START_INDEX_0];
 			ecncriptedTextForWindow[row] = encriptedText[START_INDEX_1];
 		}
+		String encodedText = makeTheEncodedTextAsString(ecncriptedTextForWindow);
+		return encodedText;
+	}
+
+	private static String makeTheEncodedTextAsString(char[] ecncriptedTextForWindow) {
+		String encodedText = "";
 		for (int i = START_INDEX_1; i < ecncriptedTextForWindow.length; i += 2) {
-			System.out.print(ecncriptedTextForWindow[i - START_INDEX_1] + "" + ecncriptedTextForWindow[i] + " ");
+			encodedText += ecncriptedTextForWindow[i - START_INDEX_1] + "" + ecncriptedTextForWindow[i] + " ";
 		}
+		return encodedText;
 	}
 
 	private static void showTable(char[][] table) {
@@ -342,5 +364,11 @@ public class Playfair {
 			}
 			System.out.println();
 		}
+	}
+
+	private static void showTheEncriptedText(String encodedText) {
+		System.out.println("The encripted text is :");
+		System.out.println(encodedText);
+
 	}
 }
