@@ -321,34 +321,24 @@ public class Playfair {
 
 	}
 
-	private static void encodeDifferentRowsAndSameCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+	/*
+	 * we just have to change the positions of columns and rows
+	 */
+	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
-		if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-
-		} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-			if (firstLetterCol == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
-				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-			} else {
-				outGoingFirstLetter = table[FIRST_POSITION][firstLetterCol + 1];
-				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-			}
-
-		} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-
-			if (secondLetterCol == TABLE_SIZE - 1) {
-				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-			} else {
-				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
-				outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
-			}
-
-		}
+		outGoingFirstLetter = table[firstLetterRow][secondLetterCol];
+		outGoingSecondLetter = table[secondLetterRow][firstLetterCol];
 	}
 
+	/*
+	 * there are tree main situations ONE-when the columns of the two letters
+	 * are under the TABLE_SIZE - 1(under 4) we add 1 TWO- when the first letter
+	 * column equals TABLE_SIZE - 1 and the second letter column is under the
+	 * TABLE_SIZE - 1(under 4) But now we have two situations : if the first
+	 * letter row equals TABLE_SIZE - 1 first letter positions become [0][0] and
+	 * the second letter column+=1; if the first letter row is under TABLE_SIZE
+	 * - 1 only the first letter column become 0; The same is for the COLUMNS
+	 */
 	private static void encodeSameRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
 		if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
@@ -377,12 +367,36 @@ public class Playfair {
 	}
 
 	/*
-	 * we just have to change the positions of columns and rows
+	 * The comment is the same as the comment for the
+	 * encodeSameRowsAndDifferentCols(), but here we just have to change the
+	 * positions if the rows and columns
 	 */
-	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+	private static void encodeDifferentRowsAndSameCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
-		outGoingFirstLetter = table[firstLetterRow][secondLetterCol];
-		outGoingSecondLetter = table[secondLetterRow][firstLetterCol];
+		if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
+			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+
+		} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
+			if (firstLetterCol == TABLE_SIZE - 1) {
+				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
+				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+			} else {
+				outGoingFirstLetter = table[FIRST_POSITION][firstLetterCol + 1];
+				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
+			}
+
+		} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
+
+			if (secondLetterCol == TABLE_SIZE - 1) {
+				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
+			} else {
+				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
+				outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
+			}
+
+		}
 	}
 
 	/*
@@ -421,9 +435,10 @@ public class Playfair {
 		String encodedText = makeTheEncodedTextAsString(ecncriptedTextForWindow);
 		return encodedText;
 	}
-/*
- * making the final string of the encoded text
- */
+
+	/*
+	 * making the final string of the encoded text
+	 */
 	private static String makeTheEncodedTextAsString(char[] ecncriptedTextForWindow) {
 		String encodedText = "";
 		for (int i = START_INDEX_1; i < ecncriptedTextForWindow.length; i += 2) {
@@ -431,9 +446,10 @@ public class Playfair {
 		}
 		return encodedText;
 	}
- /*
-  * this functions shows the table in the console
-  */
+
+	/*
+	 * this functions shows the table in the console
+	 */
 	private static void showTable(char[][] table) {
 		for (int rows = START_INDEX_0; rows < TABLE_SIZE; rows++) {
 			for (int cols = START_INDEX_0; cols < TABLE_SIZE; cols++) {
@@ -442,9 +458,10 @@ public class Playfair {
 			System.out.println();
 		}
 	}
+
 	/*
-	  * this functions shows the encoded text in the console
-	  */
+	 * this functions shows the encoded text in the console
+	 */
 	private static void showTheEncriptedText(String encodedText) {
 		System.out.println("The encripted text is :");
 		System.out.println(encodedText);
