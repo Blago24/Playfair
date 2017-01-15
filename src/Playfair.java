@@ -27,6 +27,9 @@ public class Playfair {
 		startTheProgram();
 	}
 
+	/*
+	 * That method call all of the other methods
+	 */
 	private static void startTheProgram() {
 		char[] key = insertingKey();
 		char[][] table = makingTheTableFromTheKey(key);
@@ -36,6 +39,9 @@ public class Playfair {
 		showTheEncriptedText(encodedText);
 	}
 
+	/*
+	 * Adding the key
+	 */
 	private static char[] insertingKey() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Put the key:");
@@ -45,16 +51,21 @@ public class Playfair {
 		return key;
 	}
 
+	/*
+	 * This method is calling two other methods ,which are removing the spaces
+	 * and change everything to be with upper letters
+	 */
 	private static char[] makingTheKey(char[] arrayWithTheKeyBeforeTheCut) {
 
-		// System.out.println(Arrays.toString(arrayWithTheKeyBeforeTheCut));
 		// now we have the array with key , but we have to cut out the spaces
 		// (if we have)
 		char[] finalArrayWithKey = removingTheSpaces(arrayWithTheKeyBeforeTheCut);
 		return becomeUpperLetters(finalArrayWithKey);
-		// System.out.println(Arrays.toString(finalArrayWithKey));
-	}
 
+	}
+	/*
+	 * First we remove the spaces than we make the array without them
+	 */
 	private static char[] removingTheSpaces(char[] arrayWithTheTextBeforeTheCut) {
 		char[] arrayWithTheText = new char[arrayWithTheTextBeforeTheCut.length];
 		byte countForTheIndexForTheTextWithoutTheSpaces = 0;
@@ -66,21 +77,36 @@ public class Playfair {
 				continue;
 			}
 		}
-		// System.out.println(Arrays.toString(arrayWithTheKey));
+		char[] finalArrayWithText = makeNewArrayWithoutSpaces(arrayWithTheText,countForTheIndexForTheTextWithoutTheSpaces);
+		return finalArrayWithText;
+	}
+/*
+ * Now we are able to create new array without the spaces 
+ */
+	private static char[] makeNewArrayWithoutSpaces(char[] arrayWithTheText,
+			byte countForTheIndexForTheTextWithoutTheSpaces) {
 		char[] finalArrayWithText = new char[countForTheIndexForTheTextWithoutTheSpaces];
 		for (int row = START_INDEX_0; row < countForTheIndexForTheTextWithoutTheSpaces; row++) {
 			finalArrayWithText[row] = arrayWithTheText[row];
 		}
 		return finalArrayWithText;
 	}
-
+/*
+ * This is making everything with upper letters
+ */
 	private static char[] becomeUpperLetters(char[] finalArrayWithKey) {
 		String textLowercase = String.valueOf(finalArrayWithKey);
 		String textUppercase = textLowercase.toUpperCase();
 		finalArrayWithKey = textUppercase.toCharArray();
 		return finalArrayWithKey;
 	}
-
+/*
+ * all we need for this method is the key
+ * the method works in two parts 
+ * 1-From the first letter to the length if the key 
+ * (after removing the repeating letters)
+ * 2-adding the other letters from the alphabet without repeating
+ */
 	private static char[][] makingTheTableFromTheKey(char[] theArrayWithTheKey) {
 		theArrayWithTheKey = becomeUpperLetters(theArrayWithTheKey);
 
@@ -95,7 +121,10 @@ public class Playfair {
 
 		return theArrayWithTheTable;
 	}
-
+/*
+ * Checking for repeating letters and removing them 
+ * Replace the J with I
+ */
 	private static int makingTheTableToTheKeyLength(char[] theArrayWithTheKey,
 			char[] theArrayWithTheTableOneDimensional) {
 		int countForTheDifferentLettersWhichPass = 0;
@@ -119,7 +148,10 @@ public class Playfair {
 		}
 		return countForTheDifferentLettersWhichPass;
 	}
-
+/*
+ * Checking which letters do we have and adding the others that we missed
+ * If we find I and place it we skip J
+ */
 	private static char makingTheTableAfterTheKeyLength(int countForTheDifferentLettersWhichPass,
 			char[] theArrayWithTheTableOneDimensional) {
 		char theLetterWithTheSmallestPosition = 'A';
@@ -145,7 +177,10 @@ public class Playfair {
 		}
 		return theLetterWithTheSmallestPosition;
 	}
-
+/*
+ * To this moment our array was one dimensional , but we need it to be two dimensional
+ * so that method is doing this for us 
+ */
 	private static char[][] changeTheTableFromOneDimensionalArrayToTwoDimensional(
 			char[] theArrayWithTheTableOneDimensional) {
 		char[][] theArrayWithTheTable = new char[TABLE_SIZE][TABLE_SIZE];
@@ -158,7 +193,9 @@ public class Playfair {
 		}
 		return theArrayWithTheTable;
 	}
-
+/*
+ * read the text from the console 
+ */
 	private static char[] insertingText() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Put the text:");
@@ -168,10 +205,17 @@ public class Playfair {
 
 		return text;
 	}
-
+/*
+ * here we separate the text
+ * if we find two same letter next to each other we add X between them 
+ * that means that we will make the final array bigger
+ * if we have to same letter , the array will grow with one field
+ * and when we add that X we have to skip the next compare
+ * For that reason we use checkForTwoSameLetters variable 
+ * it grow every time we add X
+ */
 	private static char[] makingTheText(char[] arrayWithTheTextBeforeTheCut) {
 
-		// System.out.println(Arrays.toString(arrayWithTheKeyBeforeTheCut));
 		// now we have the array with key , but we have to cut out the spaces
 		// (if we have)
 		char[] finalArrayWithText = removingTheSpaces(arrayWithTheTextBeforeTheCut);
@@ -209,7 +253,9 @@ public class Playfair {
 		}
 		return array;
 	}
-
+/*
+ * we are finding the Column and Row of the first and the second letter 
+ */
 	private static int[] findingTheIndexesOfTheLettersInTheTable(char firstLetter, char secondLetter, char[][] table) {
 
 		byte indexRowFirstLetter = START_INDEX_0;
@@ -237,7 +283,7 @@ public class Playfair {
 
 		return indexesFromRowsAndCols;
 	}
-
+	
 	private static char[] encoding(int firstLetterRow, int firstLetterCol, int secondLetterRow, int secondLetterCol,
 			char[][] table) {
 
@@ -264,21 +310,20 @@ public class Playfair {
 			outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
 
 		} else if (firstLetterRow == TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
-			if(firstLetterCol==TABLE_SIZE - 1){
+			if (firstLetterCol == TABLE_SIZE - 1) {
 				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
 				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
-			}else{
-				outGoingFirstLetter = table[FIRST_POSITION][firstLetterCol+1];
+			} else {
+				outGoingFirstLetter = table[FIRST_POSITION][firstLetterCol + 1];
 				outGoingSecondLetter = table[secondLetterRow + 1][secondLetterCol];
 			}
-			
 
 		} else if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow == TABLE_SIZE - 1) {
-			
-			if(secondLetterCol==TABLE_SIZE - 1){
+
+			if (secondLetterCol == TABLE_SIZE - 1) {
 				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
 				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-			}else{
+			} else {
 				outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
 				outGoingSecondLetter = table[FIRST_POSITION][secondLetterCol + 1];
 			}
@@ -293,26 +338,24 @@ public class Playfair {
 			outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
 
 		} else if (firstLetterCol == TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
-			if(firstLetterRow==TABLE_SIZE - 1){
+			if (firstLetterRow == TABLE_SIZE - 1) {
 				outGoingFirstLetter = table[FIRST_POSITION][FIRST_POSITION];
 				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
-			}else{
-				outGoingFirstLetter = table[firstLetterRow+1][FIRST_POSITION];
+			} else {
+				outGoingFirstLetter = table[firstLetterRow + 1][FIRST_POSITION];
 				outGoingSecondLetter = table[secondLetterRow][secondLetterCol + 1];
 			}
-			
 
 		} else if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol == TABLE_SIZE - 1) {
-			if(firstLetterRow==TABLE_SIZE - 1){
+			if (firstLetterRow == TABLE_SIZE - 1) {
 				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
 				outGoingSecondLetter = table[FIRST_POSITION][FIRST_POSITION];
-			}else{
+			} else {
 				outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
 				outGoingSecondLetter = table[secondLetterRow + 1][FIRST_POSITION];
 			}
-			
 
-		} 
+		}
 	}
 
 	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
