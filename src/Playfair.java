@@ -24,15 +24,16 @@ public class Playfair {
 	private static char outGoingSecondLetter = '\u0000';
 
 	public static void main(String[] args) {
+		startTheProgram();
+	}
 
+	private static void startTheProgram() {
 		char[] key = insertingKey();
 		char[][] table = makingTheTableFromTheKey(key);
 		showTable(table);
 		char[] text = insertingText();
-
 		String encodedText = makeTheEncriptedText(table, text);
 		showTheEncriptedText(encodedText);
-
 	}
 
 	private static char[] insertingKey() {
