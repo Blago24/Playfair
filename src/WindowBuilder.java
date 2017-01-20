@@ -18,7 +18,6 @@ public class WindowBuilder extends Playfair {
 	public static JTextField textField;
 	public static String keyA = null;
 	public static String textA = null;
-	public static boolean isRunning = false;
 	private JTextPane txtpnKey;
 	private JTextPane txtpnEnterTheText;
 	private JTextField finalText;
