@@ -1,52 +1,37 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Playfair {
 
-	private static final int TABLE_SIZE = 5;
-	private static final int FIRST_POSITION = 0;
-	private static final int ONE_DIMENSIONAL_ARRAY_SIZE = 25;
-	private static final char THE_X = 'X';
-	private static final char THE_Q = 'Q';
-	private static final char THE_I = 'I';
-	private static final char THE_J = 'J';
-	private static final int FIRST_LETTER_ROW = 0;
-	private static final int FIRST_LETTER_COL = 1;
-	private static final int SECOND_LETTER_ROW = 2;
-	private static final int SECOND_LETTER_COL = 3;
-	private static final int START_INDEX_0 = 0;
-	private static final int START_INDEX_1 = 1;
+	public static final int TABLE_SIZE = 5;
+	public static final int FIRST_POSITION = 0;
+	public static final int ONE_DIMENSIONAL_ARRAY_SIZE = 25;
+	public static final char THE_X = 'X';
+	public static final char THE_Q = 'Q';
+	public static final char THE_I = 'I';
+	public static final char THE_J = 'J';
+	public static final int FIRST_LETTER_ROW = 0;
+	public static final int FIRST_LETTER_COL = 1;
+	public static final int SECOND_LETTER_ROW = 2;
+	public static final int SECOND_LETTER_COL = 3;
+	public static final int START_INDEX_0 = 0;
+	public static final int START_INDEX_1 = 1;
 
 	/*
 	 * We need this global variables , because use them is three methods
 	 */
-	private static char outGoingFirstLetter = '\u0000';
-	private static char outGoingSecondLetter = '\u0000';
+	public static char outGoingFirstLetter = '\u0000';
+	public static char outGoingSecondLetter = '\u0000';
 
 	public static void main(String[] args) {
-		startTheProgram();
-	}
-
-	/*
-	 * That method call all of the other methods
-	 */
-	private static void startTheProgram() {
-		char[] key = insertingKey();
-		char[][] table = makingTheTableFromTheKey(key);
-		showTable(table);
-		char[] text = insertingText();
-		String encodedText = makeTheEncriptedText(table, text);
-		showTheEncriptedText(encodedText);
+		
 	}
 
 	/*
 	 * Adding the key
 	 */
-	private static char[] insertingKey() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("/if you hit Enter ,the table will become the alphabet/");
-		System.out.print("Put the key:");
-		String keyString = scanner.nextLine();
+	public static char[] insertingKey(String inputFromWindow) {
+		
+		String keyString = inputFromWindow;
 		char[] arrayWithTheKeyBeforeTheCut = keyString.toCharArray();
 		char[] key = makingTheKey(arrayWithTheKeyBeforeTheCut);
 		return key;
@@ -56,7 +41,7 @@ public class Playfair {
 	 * This method is calling two other methods ,which are removing the spaces
 	 * and change everything to be with upper letters
 	 */
-	private static char[] makingTheKey(char[] arrayWithTheKeyBeforeTheCut) {
+	public static char[] makingTheKey(char[] arrayWithTheKeyBeforeTheCut) {
 
 		// now we have the array with key , but we have to cut out the spaces
 		// (if we have)
@@ -68,7 +53,7 @@ public class Playfair {
 	/*
 	 * First we remove the spaces than we make the array without them
 	 */
-	private static char[] removingTheSpaces(char[] arrayWithTheTextBeforeTheCut) {
+	public static char[] removingTheSpaces(char[] arrayWithTheTextBeforeTheCut) {
 		char[] arrayWithTheText = new char[arrayWithTheTextBeforeTheCut.length];
 		byte countForTheIndexForTheTextWithoutTheSpaces = 0;
 		for (int row = START_INDEX_0; row < arrayWithTheTextBeforeTheCut.length; row++) {
@@ -87,7 +72,7 @@ public class Playfair {
 	/*
 	 * Now we are able to create new array without the spaces
 	 */
-	private static char[] makeNewArrayWithoutSpaces(char[] arrayWithTheText,
+	public static char[] makeNewArrayWithoutSpaces(char[] arrayWithTheText,
 			byte countForTheIndexForTheTextWithoutTheSpaces) {
 		char[] finalArrayWithText = new char[countForTheIndexForTheTextWithoutTheSpaces];
 		for (int row = START_INDEX_0; row < countForTheIndexForTheTextWithoutTheSpaces; row++) {
@@ -99,7 +84,7 @@ public class Playfair {
 	/*
 	 * This is making everything with upper letters
 	 */
-	private static char[] becomeUpperLetters(char[] finalArrayWithKey) {
+	public static char[] becomeUpperLetters(char[] finalArrayWithKey) {
 		String textLowercase = String.valueOf(finalArrayWithKey);
 		String textUppercase = textLowercase.toUpperCase();
 		finalArrayWithKey = textUppercase.toCharArray();
@@ -112,7 +97,7 @@ public class Playfair {
 	 * repeating letters) 2-adding the other letters from the alphabet without
 	 * repeating
 	 */
-	private static char[][] makingTheTableFromTheKey(char[] theArrayWithTheKey) {
+	public static char[][] makingTheTableFromTheKey(char[] theArrayWithTheKey) {
 		theArrayWithTheKey = becomeUpperLetters(theArrayWithTheKey);
 
 		char[] theArrayWithTheTableOneDimensional = new char[ONE_DIMENSIONAL_ARRAY_SIZE];
@@ -130,7 +115,7 @@ public class Playfair {
 	/*
 	 * Checking for repeating letters and removing them Replace the J with I
 	 */
-	private static int makingTheTableToTheKeyLength(char[] theArrayWithTheKey,
+	public static int makingTheTableToTheKeyLength(char[] theArrayWithTheKey,
 			char[] theArrayWithTheTableOneDimensional) {
 		int countForTheDifferentLettersWhichPass = 0;
 		int countForTheDifferentLetters;
@@ -158,7 +143,7 @@ public class Playfair {
 	 * Checking which letters do we have and adding the others that we missed If
 	 * we find I and place it we skip J
 	 */
-	private static char makingTheTableAfterTheKeyLength(int countForTheDifferentLettersWhichPass,
+	public static char makingTheTableAfterTheKeyLength(int countForTheDifferentLettersWhichPass,
 			char[] theArrayWithTheTableOneDimensional) {
 		char theLetterWithTheSmallestPosition = 'A';
 		int countForTheDifferentLetters;
@@ -188,7 +173,7 @@ public class Playfair {
 	 * To this moment our array was one dimensional , but we need it to be two
 	 * dimensional so that method is doing this for us
 	 */
-	private static char[][] changeTheTableFromOneDimensionalArrayToTwoDimensional(
+	public static char[][] changeTheTableFromOneDimensionalArrayToTwoDimensional(
 			char[] theArrayWithTheTableOneDimensional) {
 		char[][] theArrayWithTheTable = new char[TABLE_SIZE][TABLE_SIZE];
 		int countForTheOneDimensionalArray = 0;
@@ -204,10 +189,8 @@ public class Playfair {
 	/*
 	 * read the text from the console
 	 */
-	private static char[] insertingText() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Put the text:");
-		String textString = scanner.nextLine();
+	public static char[] insertingText(String inputFromWindow) {
+		String textString = inputFromWindow;
 		char[] arrayWithTheTextBeforeTheCut = textString.toCharArray();
 		char[] text = makingTheText(arrayWithTheTextBeforeTheCut);
 
@@ -221,7 +204,7 @@ public class Playfair {
 	 * we add that X we have to skip the next compare For that reason we use
 	 * checkForTwoSameLetters variable it grow every time we add X
 	 */
-	private static char[] makingTheText(char[] arrayWithTheTextBeforeTheCut) {
+	public static char[] makingTheText(char[] arrayWithTheTextBeforeTheCut) {
 
 		// now we have the array with key , but we have to cut out the spaces
 		// (if we have)
@@ -264,7 +247,7 @@ public class Playfair {
 	/*
 	 * we are finding the Column and Row of the first and the second letter
 	 */
-	private static int[] findingTheIndexesOfTheLettersInTheTable(char firstLetter, char secondLetter, char[][] table) {
+	public static int[] findingTheIndexesOfTheLettersInTheTable(char firstLetter, char secondLetter, char[][] table) {
 
 		byte indexRowFirstLetter = START_INDEX_0;
 		byte indexColFirstLetter = START_INDEX_0;
@@ -303,7 +286,7 @@ public class Playfair {
 	 * letter
 	 */
 
-	private static char[] encoding(int firstLetterRow, int firstLetterCol, int secondLetterRow, int secondLetterCol,
+	public static char[] encoding(int firstLetterRow, int firstLetterCol, int secondLetterRow, int secondLetterCol,
 			char[][] table) {
 
 		if (firstLetterRow != secondLetterRow && firstLetterCol != secondLetterCol) {
@@ -325,7 +308,7 @@ public class Playfair {
 	/*
 	 * we just have to change the positions of columns and rows
 	 */
-	private static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+	public static void encodeDifferentRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
 		outGoingFirstLetter = table[firstLetterRow][secondLetterCol];
 		outGoingSecondLetter = table[secondLetterRow][firstLetterCol];
@@ -340,7 +323,7 @@ public class Playfair {
 	 * the second letter column+=1; if the first letter row is under TABLE_SIZE
 	 * - 1 only the first letter column become 0; The same is for the COLUMNS
 	 */
-	private static void encodeSameRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+	public static void encodeSameRowsAndDifferentCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
 		if (firstLetterCol < TABLE_SIZE - 1 && secondLetterCol < TABLE_SIZE - 1) {
 			outGoingFirstLetter = table[firstLetterRow][firstLetterCol + 1];
@@ -372,7 +355,7 @@ public class Playfair {
 	 * encodeSameRowsAndDifferentCols(), but here we just have to change the
 	 * positions if the rows and columns
 	 */
-	private static void encodeDifferentRowsAndSameCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
+	public static void encodeDifferentRowsAndSameCols(int firstLetterRow, int firstLetterCol, int secondLetterRow,
 			int secondLetterCol, char[][] table) {
 		if (firstLetterRow < TABLE_SIZE - 1 && secondLetterRow < TABLE_SIZE - 1) {
 			outGoingFirstLetter = table[firstLetterRow + 1][firstLetterCol];
@@ -403,7 +386,7 @@ public class Playfair {
 	/*
 	 * returning letters two by two
 	 */
-	private static char[] putTheLettersInArray(char outGoingFirstLetter, char outGoingSecondLetter) {
+	public static char[] putTheLettersInArray(char outGoingFirstLetter, char outGoingSecondLetter) {
 		char[] OutGoingText = new char[2];
 		OutGoingText[START_INDEX_0] = outGoingFirstLetter;
 		OutGoingText[START_INDEX_1] = outGoingSecondLetter;
@@ -415,7 +398,7 @@ public class Playfair {
 	 * encode them after that we send them in function that collects all of the
 	 * letters and make string of them with the final answer
 	 */
-	private static String makeTheEncriptedText(char[][] table, char[] text) {
+	public static String makeTheEncriptedText(char[][] table, char[] text) {
 		char[] encriptedText = new char[2];
 		char[] ecncriptedTextForWindow = new char[text.length];
 		for (int row = START_INDEX_1; row < text.length; row += 2) {
@@ -440,7 +423,7 @@ public class Playfair {
 	/*
 	 * making the final string of the encoded text
 	 */
-	private static String makeTheEncodedTextAsString(char[] ecncriptedTextForWindow) {
+	public static String makeTheEncodedTextAsString(char[] ecncriptedTextForWindow) {
 		String encodedText = "";
 		for (int i = START_INDEX_1; i < ecncriptedTextForWindow.length; i += 2) {
 			encodedText += ecncriptedTextForWindow[i - START_INDEX_1] + "" + ecncriptedTextForWindow[i] + " ";
@@ -451,19 +434,25 @@ public class Playfair {
 	/*
 	 * this functions shows the table in the console
 	 */
-	private static void showTable(char[][] table) {
+	public static String showTable(char[][] table) {
+		StringBuilder finaleTable = new StringBuilder();
+		
 		for (int rows = START_INDEX_0; rows < TABLE_SIZE; rows++) {
 			for (int cols = START_INDEX_0; cols < TABLE_SIZE; cols++) {
-				System.out.print(table[rows][cols] + " ");
+				finaleTable.append(String.valueOf(table[rows][cols]));
+				finaleTable.append(" ");
+				
 			}
-			System.out.println();
+			finaleTable.append("\n");
 		}
+		
+		return finaleTable.toString();
 	}
 
 	/*
 	 * this functions shows the encoded text in the console
 	 */
-	private static void showTheEncriptedText(String encodedText) {
+	public static void showTheEncriptedText(String encodedText) {
 		System.out.println("The encripted text is :");
 		System.out.println(encodedText);
 
