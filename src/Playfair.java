@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Playfair {
 
 	public static final int TABLE_SIZE = 5;
