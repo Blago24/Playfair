@@ -77,8 +77,8 @@ public class WindowBuilder extends Playfair {
 		btnNewButton.setBackground(Color.LIGHT_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String keyA;
-				String textA;
+				String keyA = null;
+				String textA = null;
 				try {
 					keyA = keyField.getText();
 					textA = textField.getText();
@@ -91,7 +91,13 @@ public class WindowBuilder extends Playfair {
 					tableArea.setText(showsTheTable);
 					finalText.setText(encodedText);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Write some text!");
+					if(textA.length()==0){
+						JOptionPane.showMessageDialog(null, "Write some text!");
+					}
+					if(keyA.length()>25){
+						JOptionPane.showMessageDialog(null, "The length of the key cant be more than 25!");
+					}
+					
 				}
 
 			}
@@ -130,6 +136,20 @@ public class WindowBuilder extends Playfair {
 		txtpnTable.setEditable(false);
 		txtpnTable.setBounds(367, 14, 101, 20);
 		frame.getContentPane().add(txtpnTable);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.setBackground(Color.LIGHT_GRAY);
+		btnReset.setBounds(367, 201, 89, 23);
+		frame.getContentPane().add(btnReset);
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				keyField.setText(null);
+				textField.setText(null);
+				finalText.setText(null);
+				tableArea.setText(null);
+			}
+			});
+		
 
 	}
 }
