@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 
@@ -93,9 +94,14 @@ public class WindowBuilder extends Playfair {
 				} catch (Exception e) {
 					if(textA.length()==0){
 						JOptionPane.showMessageDialog(null, "Write some text!");
+					}else if(! Pattern.matches(".*[a-zA-Z]+.*", textA)){
+						JOptionPane.showMessageDialog(null, "You are only allowed to write letters ");
 					}
 					if(keyA.length()>25){
 						JOptionPane.showMessageDialog(null, "The length of the key cant be more than 25!");
+					}
+					if(! Pattern.matches(".*[a-zA-Z]+.*", keyA)){
+						JOptionPane.showMessageDialog(null, "You are only allowed to write letters ");
 					}
 					
 				}
