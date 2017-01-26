@@ -246,7 +246,9 @@ public class Playfair {
 		}
 		return array;
 	}
-
+/*
+ * Convert all Js to Is
+ */
 	private static char[] removeJ(char[] finalArrayWithText) {
 		for (int row = 0; row < finalArrayWithText.length; row++) {
 			if(finalArrayWithText[row]=='J'){
