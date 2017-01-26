@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Playfair {
 
 	public static final int TABLE_SIZE = 5;
@@ -23,14 +21,14 @@ public class Playfair {
 	public static char outGoingSecondLetter = '\u0000';
 
 	public static void main(String[] args) {
-		
+
 	}
 
 	/*
 	 * Adding the key
 	 */
 	public static char[] insertingKey(String inputFromWindow) {
-		
+
 		String keyString = inputFromWindow;
 		char[] arrayWithTheKeyBeforeTheCut = keyString.toCharArray();
 		char[] key = makingTheKey(arrayWithTheKeyBeforeTheCut);
@@ -211,17 +209,24 @@ public class Playfair {
 		char[] finalArrayWithText = removingTheSpaces(arrayWithTheTextBeforeTheCut);
 
 		finalArrayWithText = becomeUpperLetters(finalArrayWithText);
-		System.out.println(Arrays.toString(finalArrayWithText));
+		
 		finalArrayWithText = removeJ(finalArrayWithText);
-		System.out.println(Arrays.toString(finalArrayWithText));
+		
 		// division every two letters
 		char[] array;
-		int countForTwoSameFollowingLetters = 0;
-		for (int row = START_INDEX_1; row < finalArrayWithText.length; row++) {
-			if (finalArrayWithText[row - START_INDEX_1] == finalArrayWithText[row]) {
-				countForTwoSameFollowingLetters++;
-			}
-		}
+		int countForTwoSameFollowingLetters = countingTheSameLetters(finalArrayWithText);
+		array = declarationOfTheArray(finalArrayWithText, countForTwoSameFollowingLetters);
+		addingX(finalArrayWithText, array);
+		return array;
+	}
+
+	/*
+	 * We use this for the declaration of the array , because we dont know the
+	 * final length if the length is even we dont make any changes ,but if is
+	 * not , we have to add Q at the end
+	 */
+	private static char[] declarationOfTheArray(char[] finalArrayWithText, int countForTwoSameFollowingLetters) {
+		char[] array;
 		if ((countForTwoSameFollowingLetters + finalArrayWithText.length) % 2 == 0) {
 			array = new char[countForTwoSameFollowingLetters + finalArrayWithText.length];
 
@@ -229,9 +234,27 @@ public class Playfair {
 			array = new char[countForTwoSameFollowingLetters + finalArrayWithText.length + 1];
 			array[countForTwoSameFollowingLetters + finalArrayWithText.length] = THE_Q;
 		}
-
-		array[START_INDEX_0] = finalArrayWithText[START_INDEX_0];
+		return array;
+	}
+/*
+ * we use this method to count letters which are the same as the previous or the next letter
+ * we need it to make the equation for the final length of the array with the text
+ */
+	private static int countingTheSameLetters(char[] finalArrayWithText) {
+		int countForTwoSameFollowingLetters = 0;
+		for (int row = START_INDEX_1; row < finalArrayWithText.length; row++) {
+			if (finalArrayWithText[row - START_INDEX_1] == finalArrayWithText[row]) {
+				countForTwoSameFollowingLetters++;
+			}
+		}
+		return countForTwoSameFollowingLetters;
+	}
+ /*
+  * this method is searching for same letters and add X between them
+  */
+	private static void addingX(char[] finalArrayWithText, char[] array) {
 		int checkForTwoSameLetters = 0;
+		array[START_INDEX_0] = finalArrayWithText[START_INDEX_0];
 		for (int row = START_INDEX_1; row < finalArrayWithText.length; row++) {
 
 			if (finalArrayWithText[row] != array[row - START_INDEX_1 + checkForTwoSameLetters]) {
@@ -244,15 +267,15 @@ public class Playfair {
 				checkForTwoSameLetters++;
 			}
 		}
-		return array;
 	}
-/*
- * Convert all Js to Is
- */
+
+	/*
+	 * Convert all Js to Is
+	 */
 	private static char[] removeJ(char[] finalArrayWithText) {
 		for (int row = 0; row < finalArrayWithText.length; row++) {
-			if(finalArrayWithText[row]=='J'){
-				finalArrayWithText[row]='I';
+			if (finalArrayWithText[row] == 'J') {
+				finalArrayWithText[row] = 'I';
 			}
 		}
 		return finalArrayWithText;
@@ -450,16 +473,16 @@ public class Playfair {
 	 */
 	public static String showTable(char[][] table) {
 		StringBuilder finaleTable = new StringBuilder();
-		
+
 		for (int rows = START_INDEX_0; rows < TABLE_SIZE; rows++) {
 			for (int cols = START_INDEX_0; cols < TABLE_SIZE; cols++) {
 				finaleTable.append(String.valueOf(table[rows][cols]));
 				finaleTable.append(" ");
-				
+
 			}
 			finaleTable.append("\n");
 		}
-		
+
 		return finaleTable.toString();
 	}
 

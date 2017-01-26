@@ -114,8 +114,8 @@ public class WindowBuilder extends Playfair {
 
 		txtpnKey = new JTextPane();
 		txtpnKey.setEditable(false);
-		txtpnKey.setText("/if you hit Enter ,the table will become the alphabet/ Write the key:");
-		txtpnKey.setBounds(10, 11, 280, 34);
+		txtpnKey.setText("/if you hit Enter ,the table will become the alphabet/ \n Write the key:");
+		txtpnKey.setBounds(10, 11, 315, 34);
 		frame.getContentPane().add(txtpnKey);
 
 		txtpnEnterTheText = new JTextPane();
