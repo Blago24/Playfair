@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Playfair {
 
 	public static final int TABLE_SIZE = 5;
@@ -209,6 +211,9 @@ public class Playfair {
 		char[] finalArrayWithText = removingTheSpaces(arrayWithTheTextBeforeTheCut);
 
 		finalArrayWithText = becomeUpperLetters(finalArrayWithText);
+		System.out.println(Arrays.toString(finalArrayWithText));
+		finalArrayWithText = removeJ(finalArrayWithText);
+		System.out.println(Arrays.toString(finalArrayWithText));
 		// division every two letters
 		char[] array;
 		int countForTwoSameFollowingLetters = 0;
@@ -240,6 +245,15 @@ public class Playfair {
 			}
 		}
 		return array;
+	}
+
+	private static char[] removeJ(char[] finalArrayWithText) {
+		for (int row = 0; row < finalArrayWithText.length; row++) {
+			if(finalArrayWithText[row]=='J'){
+				finalArrayWithText[row]='I';
+			}
+		}
+		return finalArrayWithText;
 	}
 
 	/*
